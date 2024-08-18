@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Converter</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            background-color: rgb(130, 130, 241);
+        }
+        label{
+            font-size: medium;
+        }
+        p{
+            font-size: small;
+        }
+
+        .left, .right {
+            display: flex;
+            flex-direction: column;
+            width: 50%;
+            height: 100%;
+            box-sizing: border-box;
+        }
+        .box1{
+            background-color: aqua;
+        }
+        .box2{
+            background-color: rgb(43, 215, 215);
+        }
+        .box3{
+            background-color: rgb(39, 227, 227);
+        }
+        .box4{
+            background-color: rgb(33, 232, 232);
+        }
+
+        .box1,.box2,.box3,.box4 {
+            flex: 1;
+            border: 2px solid #000;
+            margin: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            /* width: 50%;
+            height: 50%; */
+        }
+        .result{
+            display: flex;
+            flex-direction:row;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left">
+            <div class="box1">
+                <h1>Binary Number Converter</h1><br>
+                <label for="binaryInput">Enter a binary number:</label><br>
+                <input type="text" id="binaryInput" placeholder="Binary number" pattern="[01]+"><br>
+                <button onclick="convertBinary()">Convert</button><br>
+                <div class="result">
+                    <p id="BtoD"></p>
+                    <p id="BtoO"></p>
+                    <p id="BtoH"></p>
+                </div>
+                
+            </div>
+            <div class="box2">
+                <h1>Decimal Number Converter</h1><br>
+                <label for="decimalInput">Enter a decimal number:</label><br>
+                <input type="number" id="decimalInput" min="0" placeholder="Decimal number"><br>
+                <button onclick="convertDecimal()">Convert</button><br>
+                <div class="result">
+                    <p id="DtoB"></p>
+                    <p id="DtoO"></p>
+                    <p id="DtoH"></p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="right">
+            <div class="box3">
+                <h1>Hexadecimal Number Converter</h1><br>
+                <label for="hexInput">Enter a hexadecimal number:</label><br>
+                <input type="text" id="hexInput" placeholder="Hexadecimal number" pattern="[0-9A-Fa-f]+"><br>
+                <button onclick="convertHex()">Convert</button><br>
+                <div class="result">
+                    <p id="HtoB"></p>
+                    <p id="HtoD"></p>
+                    <p id="HtoO"></p>
+                </div>
+                
+            </div>
+            <div class="box4">
+                <h1>Octal Number Converter</h1><br>
+                <label for="octalInput">Enter an octal number:</label><br>
+                <input type="text" id="octalInput" pattern="[0-7]*" placeholder="Octal number"><br>
+                <button onclick="convertOctal()">Convert</button><br>
+                <div class="result">
+                    <p id="binaryResult"></p>
+                    <p id="decimalResult"></p>
+                    <p id="hexadecimalResult"></p>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function convertBinary() {
+            var binaryInput = document.getElementById('binaryInput').value.trim();
+            
+            if (!/^[01]+$/.test(binaryInput)) {
+                document.getElementById('BtoD').innerText = '';
+                document.getElementById('BtoO').innerText = '';
+                document.getElementById('BtoH').innerText = 'Please enter a valid binary number.';
+                return;
+            }
+
+            var decimalNumber = parseInt(binaryInput, 2);
+            var octalNumber = decimalNumber.toString(8);
+            var hexadecimalNumber = decimalNumber.toString(16).toUpperCase();
+
+            document.getElementById('BtoD').innerText = 'Decimal: ' + decimalNumber;
+            document.getElementById('BtoO').innerText = 'Octal: ' + octalNumber;
+            document.getElementById('BtoH').innerText = 'Hexadecimal: ' + hexadecimalNumber;
+        }
+
+        function convertDecimal() {
+            var decimalNumber = parseInt(document.getElementById('decimalInput').value);
+
+            if (isNaN(decimalNumber) || decimalNumber < 0) {
+                document.getElementById('DtoB').innerText = '';
+                document.getElementById('DtoO').innerText = '';
+                document.getElementById('DtoH').innerText = 'Please enter a valid non-negative integer.';
+                return;
+            }
+            var binaryNumber = decimalNumber.toString(2);
+            var octalNumber = decimalNumber.toString(8);
+            var hexadecimalNumber = decimalNumber.toString(16).toUpperCase();
+
+            document.getElementById('DtoB').innerText = 'Binary: ' + binaryNumber;
+            document.getElementById('DtoO').innerText = 'Octal: ' + octalNumber;
+            document.getElementById('DtoH').innerText = 'Hexadecimal: ' + hexadecimalNumber;
+        }
+
+        function convertHex() {
+            var hexInput = document.getElementById('hexInput').value.trim();
+            
+            if (!/^[0-9A-Fa-f]+$/.test(hexInput)) {
+                document.getElementById('HtoB').innerText = '';
+                document.getElementById('HtoD').innerText = '';
+                document.getElementById('HtoO').innerText = 'Please enter a valid hexadecimal number.';
+                return;
+            }
+            var decimalNumber = parseInt(hexInput, 16);
+            var binaryNumber = decimalNumber.toString(2);
+            var octalNumber = decimalNumber.toString(8);
+
+            document.getElementById('HtoB').innerText = 'Binary: ' + binaryNumber;
+            document.getElementById('HtoD').innerText = 'Decimal: ' + decimalNumber;
+            document.getElementById('HtoO').innerText = 'Octal: ' + octalNumber;
+        }
+
+        function convertOctal() {
+            var octalInput = document.getElementById('octalInput').value;
+            
+            if (!/^[0-7]+$/.test(octalInput)) {
+                document.getElementById('binaryResult').innerText = '';
+                document.getElementById('decimalResult').innerText = '';
+                document.getElementById('hexadecimalResult').innerText = 'Please enter a valid octal number.';
+                return;
+            }
+            var decimalNumber = parseInt(octalInput, 8);
+            var binaryNumber = decimalNumber.toString(2);
+            var hexadecimalNumber = decimalNumber.toString(16).toUpperCase();
+
+            document.getElementById('binaryResult').innerText = 'Binary: ' + binaryNumber;
+            document.getElementById('decimalResult').innerText = 'Decimal: ' + decimalNumber;
+            document.getElementById('hexadecimalResult').innerText = 'Hexadecimal: ' + hexadecimalNumber;
+        }
+    </script>
+</body>
+</html>
